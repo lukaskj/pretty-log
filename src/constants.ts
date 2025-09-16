@@ -3,7 +3,7 @@ import { EOL } from "node:os";
 
 export const levelColors: Record<string, ChalkInstance> = {
   default: chalk.bgWhite,
-  debug: chalk.bgBlue,
+  debug: chalk.bgBlueBright,
   info: chalk.bgGreen,
   notice: chalk.bgCyan,
   error: chalk.bgRed,
@@ -16,12 +16,12 @@ export const levelColors: Record<string, ChalkInstance> = {
 
 export const levelMessageColors: Record<string, ChalkInstance> = {
   default: chalk.white,
-  debug: chalk.blue,
+  debug: chalk.blueBright,
   info: chalk.green,
   notice: chalk.cyan,
-  error: chalk.red,
-  warning: chalk.yellow,
-  warn: chalk.yellow,
+  error: chalk.redBright,
+  warning: chalk.yellowBright,
+  warn: chalk.yellowBright,
   crit: chalk.redBright,
   alert: chalk.redBright,
   emerg: chalk.redBright,

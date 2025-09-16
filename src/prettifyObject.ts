@@ -31,11 +31,10 @@ export function prettifyObject(inputData: Record<string, any>): string {
   if (error?.value) {
     line += messageColor(`${error.key}: ${error.value}`);
     line += EOL;
-    // line += `${messageColor(error.value)}${EOL}`;
   }
 
   if (timestamp?.value) {
-    line += `${timestamp.key}: ${chalk.gray(new Date(timestamp.value).toISOString())}${EOL}`;
+    line += `${chalk.whiteBright(timestamp.key)}: ${new Date(timestamp.value).toISOString()}${EOL}`;
   }
 
   const objectKeys = Object.keys(inputData).filter((key) => !allKeys.includes(key));
@@ -43,7 +42,7 @@ export function prettifyObject(inputData: Record<string, any>): string {
     const value = inputData[key];
     const valueString: string = inspect(value, { colors: true, depth: 5 });
 
-    line += `${key}: ${valueString}${EOL}`;
+    line += `${chalk.whiteBright(key)}: ${valueString}${EOL}`;
   }
 
   return line.trim();

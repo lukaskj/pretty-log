@@ -1,34 +1,77 @@
-# @lukaskj/bun-base-template
+# Pretty Log
 
-Template for [Bun](https://bun.sh/) projects.
+A log prettifier for structured JSON logs. Pretty Log transforms JSON log output into a readable, colorized format that's easier to analyze and understand.
+
+## Features
+
+- 🎨 Colorized output based on log levels
+- 🔍 Intelligent parsing of JSON log entries
+- 📏 Clean separation between log entries
+- 🛡️ Secure JSON parsing
+- 📝 Preserves non-JSON lines
+- 🎯 Special handling for common log fields (level, message, timestamp, error)
+
+## Installation
+
+```bash
+# Using npm
+npm install -g @lukaskj/pretty-log
+```
 
 ## Usage
 
+Pipe your JSON logs directly to pretty-log:
+
 ```bash
-git clone --depth=1 https://github.com/lukaskj/bun-base-template example-project
-cd example-project/
+# From a file
+cat logs.txt | pretty-log
 
-rm -rf .git
-git init
-bun install
+# From a process
+your-app | pretty-log
 
-# Replace package name in package.json file
-sed -i s#@lukaskj/bun-base-template#$(basename "$PWD")#g package.json
-
-git add .
-git commit -m 'initial commit'
+# From Docker
+docker logs your-container | pretty-log
 ```
 
-## Commands:
 
-- `bun run dev`: Run project with `src/index.ts` entrypoint;
-- `bun run lint`: Lint source files with `tsc` and `biome`;
-- `bun run format`: Format code using `biome` and the configuration file at `biome.json`;
-- `bun run test`: Run test files from `test` folder.
-- `bun run test:cov`: Run tests with coverage.
+## Input Format
 
-## Dependencies:
+The tool expects JSON objects, one per line. Each object can have the following fields:
 
-- [husky](https://typicode.github.io/husky/)
-- [@biomejs/biome](https://github.com/biomejs/biome)
-- [@faker-js/faker](https://fakerjs.dev/)
+```typescript
+{
+  level?: string;     // log level (e.g., "info", "error", "debug")
+  message?: string;   // main log message
+  timestamp?: string; // timestamp of the log
+  error?: string;     // error information
+  [key: string]: any; // any additional fields
+}
+```
+
+## Output Format
+
+The output is formatted with:
+- Color-coded log levels
+- Clear message highlighting
+- Structured additional fields
+- Visual separators between log entries
+
+Example output:
+```
+ INFO  User logged in
+       timestamp: 2025-09-15T10:30:00Z
+       userId: 123
+       ip: "192.168.1.1"
+--------------------------------
+ ERROR Failed to process request
+       timestamp: 2025-09-15T10:30:01Z
+       error: "Connection timeout"
+       requestId: "abc-123"
+--------------------------------
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+

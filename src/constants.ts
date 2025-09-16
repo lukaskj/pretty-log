@@ -14,6 +14,19 @@ export const levelColors: Record<string, ChalkInstance> = {
   emerg: chalk.bgRedBright,
 };
 
+export const levelMessageColors: Record<string, ChalkInstance> = {
+  default: chalk.white,
+  debug: chalk.blue,
+  info: chalk.green,
+  notice: chalk.cyan,
+  error: chalk.red,
+  warning: chalk.yellow,
+  warn: chalk.yellow,
+  crit: chalk.redBright,
+  alert: chalk.redBright,
+  emerg: chalk.redBright,
+};
+
 export const keysMap = {
   level: ["severity", "level"],
   message: ["message", "msg"],

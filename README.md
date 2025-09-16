@@ -2,6 +2,8 @@
 
 A log prettifier for structured JSON logs. Pretty Log transforms JSON log output into a readable, colorized format that's easier to analyze and understand.
 
+_Based on [pino-pretty](https://github.com/pinojs/pino-pretty)_
+
 ## Features
 
 - 🎨 Colorized output based on log levels

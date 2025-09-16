@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: . */
+#!/usr/bin/env node
 import { fstatSync } from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { chunksToLines } from "./chunksToLines.ts";

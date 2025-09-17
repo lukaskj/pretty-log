@@ -35,6 +35,11 @@ your-app | pretty-log
 docker logs your-container | pretty-log
 ```
 
+### If piping from stderr:
+```bash
+your-app 2>&1 | pretty-log
+```
+
 
 ## Input Format
 

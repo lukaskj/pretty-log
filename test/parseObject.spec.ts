@@ -1,6 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import { parseObject } from "../src/parseObject";
-import { lineSeparator } from "../src/constants";
+import { EOL } from "node:os";
+
+const lineSeparator = EOL;
 
 describe("parseObject", () => {
   async function collectOutput(generator: AsyncGenerator<string>): Promise<string[]> {

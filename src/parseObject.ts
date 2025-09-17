@@ -1,4 +1,4 @@
-import { lineSeparator } from "./constants.ts";
+import { EOL } from "node:os";
 import { isObject } from "./isObject.ts";
 import { jsonParser } from "./jsonParser.ts";
 import { prettifyObject } from "./prettifyObject.ts";
@@ -12,10 +12,12 @@ export async function* parseObject(chunks: AsyncIterable<string>) {
     const parsed = jsonParser(line);
     if (parsed.err || !isObject(parsed.value)) {
       // pass through
+      // yield EOL;
       yield line;
     } else {
       yield prettifyObject(parsed.value);
+      // yield lineSeparator;
     }
-    yield lineSeparator;
+    yield EOL;
   }
 }

@@ -2,8 +2,18 @@
 import chalk from "chalk";
 import { EOL } from "node:os";
 import { inspect } from "node:util";
-import { allKeys, keysMap, levelColors, levelMessageColors } from "./constants.ts";
+import { allKeys, keysMap, levelColors } from "./constants.ts";
+import { firstLineSpacing } from "./firstLineSpacing.ts";
 import { getValueFromPossibleKeys } from "./getValueFromPossibleKeys";
+
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
 
 export function prettifyObject(inputData: Record<string, any>): string {
   const message = getValueFromPossibleKeys(inputData, keysMap.message);
@@ -12,38 +22,38 @@ export function prettifyObject(inputData: Record<string, any>): string {
   const error = getValueFromPossibleKeys(inputData, keysMap.error);
 
   let line = "";
-
-  let messageColor = chalk.white;
+  let spacing = "";
+  let isFirstLine = true;
 
   if (level) {
-    messageColor = levelMessageColors[level.value!.toLowerCase()] || chalk.white;
     const color = levelColors[level.value!.toLowerCase()] || chalk.white;
-    line = color(`${level.value!.toUpperCase()}`);
-    line += EOL;
-  }
+    line = color(` ${level.value!.toUpperCase()} `);
 
-  if (message?.value) {
-    // line += `${message.key}: ${messageColor(message.value)}${EOL}`;
-    line += messageColor(`${message.key}: ${message.value}`);
-    line += EOL;
-  }
-
-  if (error?.value) {
-    line += messageColor(`${error.key}: ${error.value}`);
-    line += EOL;
+    spacing = "".padEnd(level.value!.length + 3, " ");
   }
 
   if (timestamp?.value) {
-    line += `${chalk.whiteBright(timestamp.key)}: ${new Date(timestamp.value).toISOString()}${EOL}`;
+    line += (line.length ? " " : "") + chalk.gray(`[${dateFormatter.format(new Date(timestamp.value))}]`);
+  }
+
+  if (message?.value) {
+    isFirstLine = false;
+    line = `${line} ${chalk.cyan(message.value)}${EOL}`;
+  }
+
+  if (error?.value) {
+    line += `${firstLineSpacing(isFirstLine, spacing, line.length)}${chalk.red(error.value)}${EOL}`;
+    isFirstLine = false;
   }
 
   const objectKeys = Object.keys(inputData).filter((key) => !allKeys.includes(key));
   for (const key of objectKeys) {
     const value = inputData[key];
-    const valueString: string = inspect(value, { colors: true, depth: 5 });
+    const valueString: string = inspect(value, { colors: true, depth: 5 }).replaceAll(EOL, `\n${spacing}  `);
 
-    line += `${chalk.whiteBright(key)}: ${valueString}${EOL}`;
+    line += `${firstLineSpacing(isFirstLine, spacing, line.length)}${key}: ${valueString}${EOL}`;
+    isFirstLine = false;
   }
 
-  return line.trim();
+  return `${EOL}${line.trim()}${EOL}`;
 }

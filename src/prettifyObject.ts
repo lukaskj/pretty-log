@@ -15,7 +15,16 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   second: "2-digit",
 });
 
-export function prettifyObject(inputData: Record<string, any>): string {
+type TOptions = {
+  maxLines?: number;
+};
+
+const defaultOptions: TOptions = {
+  maxLines: 2,
+};
+
+export function prettifyObject(inputData: Record<string, any>, options?: TOptions): string {
+  options = { ...defaultOptions, ...options };
   const message = getValueFromPossibleKeys(inputData, keysMap.message);
   const level = getValueFromPossibleKeys(inputData, keysMap.level);
   const timestamp = getValueFromPossibleKeys(inputData, keysMap.timestamp);
@@ -47,13 +56,25 @@ export function prettifyObject(inputData: Record<string, any>): string {
   }
 
   const objectKeys = Object.keys(inputData).filter((key) => !allKeys.includes(key));
+  let i = 0;
   for (const key of objectKeys) {
     const value = inputData[key];
     const valueString: string = inspect(value, { colors: true, depth: 5 }).replaceAll(EOL, `\n${spacing}  `);
 
     line += `${firstLineSpacing(isFirstLine, spacing, line.length)}${key}: ${valueString}${EOL}`;
     isFirstLine = false;
+
+    if (options.maxLines && ++i >= options.maxLines) {
+      line += `${spacing}...`;
+      break;
+    }
   }
+
+  // const lines = line.split(EOL);
+  // if (options.maxLines && lines.length > options.maxLines) {
+  //   const firstPart = lines.slice(0, options.maxLines - 1);
+  //   line = [...firstPart, "  ..."].join(EOL);
+  // }
 
   return `${EOL}${line.trim()}${EOL}`;
 }

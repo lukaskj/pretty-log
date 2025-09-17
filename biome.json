@@ -39,7 +39,7 @@
       "style": {
         "noInferrableTypes": "off",
         "noNonNullAssertion": "off",
-        "noParameterAssign": "warn",
+        "noParameterAssign": "off",
         "useAsConstAssertion": "error",
         "useDefaultParameterLast": "error",
         "useEnumInitializers": "error",

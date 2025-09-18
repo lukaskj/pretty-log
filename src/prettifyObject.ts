@@ -5,6 +5,7 @@ import { inspect } from "node:util";
 import { allKeys, keysMap, levelColors } from "./constants.ts";
 import { firstLineSpacing } from "./firstLineSpacing.ts";
 import { getValueFromPossibleKeys } from "./getValueFromPossibleKeys";
+import type { TOptions } from "./types.ts";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   year: "numeric",
@@ -15,16 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   second: "2-digit",
 });
 
-type TOptions = {
-  maxLines?: number;
-};
-
-const defaultOptions: TOptions = {
-  maxLines: 2,
-};
-
-export function prettifyObject(inputData: Record<string, any>, options?: TOptions): string {
-  options = { ...defaultOptions, ...options };
+export function prettifyObject(inputData: Record<string, any>, options: TOptions): string {
   const message = getValueFromPossibleKeys(inputData, keysMap.message);
   const level = getValueFromPossibleKeys(inputData, keysMap.level);
   const timestamp = getValueFromPossibleKeys(inputData, keysMap.timestamp);
@@ -69,12 +61,6 @@ export function prettifyObject(inputData: Record<string, any>, options?: TOption
       break;
     }
   }
-
-  // const lines = line.split(EOL);
-  // if (options.maxLines && lines.length > options.maxLines) {
-  //   const firstPart = lines.slice(0, options.maxLines - 1);
-  //   line = [...firstPart, "  ..."].join(EOL);
-  // }
 
   return `${EOL}${line.trim()}${EOL}`;
 }

@@ -48,7 +48,6 @@ export function prettifyObject(inputData: Record<string, any>, options: TOptions
   }
 
   const objectKeys = Object.keys(inputData).filter((key) => !allKeys.includes(key));
-  let i = 0;
   for (const key of objectKeys) {
     const value = inputData[key];
     const valueString: string = inspect(value, { colors: true, depth: 5 }).replaceAll(EOL, `\n${spacing}  `);
@@ -56,8 +55,11 @@ export function prettifyObject(inputData: Record<string, any>, options: TOptions
     line += `${firstLineSpacing(isFirstLine, spacing, line.length)}${key}: ${valueString}${EOL}`;
     isFirstLine = false;
 
-    if (options.maxLines && ++i >= options.maxLines) {
-      line += `${spacing}...`;
+    const lines = line.split(EOL);
+
+    if (options.maxLines && lines.length > options.maxLines) {
+      line = lines.slice(0, options.maxLines).join(EOL);
+      line += `${EOL}${spacing}...`;
       break;
     }
   }

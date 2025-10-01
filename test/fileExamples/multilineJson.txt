@@ -1,0 +1,13 @@
+First line. Should be printed as is.
+{"id": 1, "name": "Alice", "age": 25, "isActive": true, "roles": ["admin", "editor"], "severity": "ERROR", "error": "Error happened", "ts": 1757648001299}
+{"id": 2, "name": "Bob", "age": 30, "isActive": false, "roles": ["viewer"], "level": "debug", "msg": "testtttt", "timestamp": "2025-09-12T03:33:50.308Z"}
+{"id": 3, "name": "Charlie", "age": 22, "isActive": true, "roles": ["editor", "contributor"]}
+{"id": 4, "name": "Diana", "age": 28, "isActive": true, "roles": ["admin"]}
+{"id": 5, "name": "Eve", "age": 35, "isActive": false, "roles": ["viewer", "contributor"], "timestamp": 1758074216690}
+
+Another line. Should be printed as is.
+Another line the comeback. Should be printed as is.
+
+{"id": 6, "level": "warn", "name": "Eve", "age": 35, "message": "Warning message", "timestamp": 1758074216690}
+>   {"id": 7, "level": "warn", "name": "Eve", "age": 35, "message": "JSON line with padding", "timestamp": 1758074216690}
+

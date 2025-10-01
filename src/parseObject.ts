@@ -11,7 +11,7 @@ export function parseObject(options: TOptions) {
         continue;
       }
 
-      const parsed = jsonParser(line);
+      const parsed = trimAndParseJsonLine(line, options.trim);
       if (parsed.err || !isObject(parsed.value)) {
         // pass through
         yield line;
@@ -21,4 +21,17 @@ export function parseObject(options: TOptions) {
       yield EOL;
     }
   };
+}
+
+function trimAndParseJsonLine(line: string, trim?: string[]) {
+  if (trim?.length) {
+    for (const pad of trim) {
+      if (line.startsWith(pad)) {
+        line = line.slice(pad.length).trim();
+        break;
+      }
+    }
+  }
+
+  return jsonParser(line);
 }

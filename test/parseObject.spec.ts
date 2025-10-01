@@ -95,4 +95,17 @@ describe("parseObject", () => {
     expect(result[0]).toContain("value");
     expect(result[1]).toBe(lineSeparator);
   });
+
+  it("should trim specified padding from lines before parsing", async () => {
+    const optionsWithTrim: TOptions = { ...defaultOptions, trim: [">  "] };
+    const input = makeAsyncIterable(['>  {"level":"info","message":"trimmed"}', ">  not json"]);
+    const result = await collectOutput(parseObject(optionsWithTrim)(input));
+
+    expect(result.length).toBe(4);
+    expect(result[0]).toContain("INFO");
+    expect(result[0]).toContain("trimmed");
+    expect(result[1]).toBe(lineSeparator);
+    expect(result[2]).toBe(">  not json");
+    expect(result[3]).toBe(lineSeparator);
+  });
 });

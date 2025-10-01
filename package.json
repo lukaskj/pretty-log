@@ -12,7 +12,8 @@
     "lint": "tsc -p . --noEmit && biome lint --write",
     "format": "biome format --write",
     "test:cov": "bun run test --coverage",
-    "test": "bun test --env-file .env.test"
+    "test": "bun test --env-file .env.test",
+    "example": "cat test/fileExamples/multilineJson.txt | bun run src/index.ts -t \">\""
   },
   "dependencies": {
     "chalk": "^5.6.2",
